@@ -47,16 +47,4 @@ while True:
     print("led {} {}".format(num, on_off))    
     dig_pin[int(num)].write(float(on_off))
 
-# 4, 8, 12: non funziona, tensione bassissima
-# 5 tensione di .25 anziché .29
-
-# msg = bytearray([ANALOG_MESSAGE + self.pin_number, value % 128, value >> 7])
-
-
-#for num in range(2, 14):
-#    print("pin {}...".format(num))
-#    dig_pin[num].write(1)
-#    time.sleep(2)
-#    dig_pin[num].write(0)    
-
 
