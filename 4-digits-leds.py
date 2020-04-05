@@ -2,6 +2,8 @@ import sys
 import time
 import math
 import pyfirmata2
+import board
+
 
 port = '/dev/ttyACM0'
 
@@ -10,7 +12,23 @@ num_digits = 4;
 
 digitPins = [2, 3, 4, 5]
 
+numeral = [
+#ABCDEFG /dp
+0b11111100, # 0
+0b01100000, # 1
+0b11011010, # 2
+0b11110010, # 3
+0b01100110, # 4
+0b10110110, # 5
+0b10111110, # 6
+0b11100000, # 7
+0b11111110, # 8
+0b11110110  # 9
+]
+
+
 delay = .001
+
 
 def clear():
     dig_pin[6].write(1)
@@ -135,6 +153,7 @@ def write_minus():
 funcs = {'-': write_minus, 0: write_0, 1: write_1, 2: write_2, 3: write_3, 4: write_4,
                            5: write_5, 6: write_6, 7: write_7, 8: write_8, 9: write_9}
 
+
 def show_map(pin_map):
     for pin, number in pin_map.items():
         dig_pin[pin].write(1)
@@ -142,6 +161,7 @@ def show_map(pin_map):
         time.sleep(delay)
         dig_pin[pin].write(0)
         clear()
+
 
 def get_pin_map(n):
     if n > 9999 or n < -999:
@@ -159,6 +179,7 @@ def get_pin_map(n):
         num = int(abs(n) % math.pow(10, pos) / math.pow(10, pos-1))
         pin = digitPins[4 - pos]
         pin_map[pin] = num
+        #print("pos={}, num={}, pin={}".format(pos, num, pin))
 
     return pin_map
 
@@ -172,33 +193,15 @@ def show_number(n):
         dig_pin[pin].write(0)
         clear()
 
-try:
-   print("Initializing... ", end='', flush=True)
-   board = pyfirmata2.Arduino(port)
-   print("ready")
-except:
-   print ('No Arduino found')
-   sys.exit()
 
-dig_pin = {}
-
-try:
-   print("Initializing pins... ")
-   for pin in range(2,14):
-      print("init pin {}".format(pin))
-      dig_pin[pin] = board.get_pin("d:{}:o".format(pin))
-   print("ready")
-except Exception as e:
-   print ("Error: {}".format(e))
-   sys.exit()
-
-
+dig_pin = board.init_pins_dig_out(board.get_board(port))
 
 for k in range (1,9999):
     m = get_pin_map(k)
     for i in range(1, 3):
         show_map(m)
+    #time.sleep(.1)
 
-#while(True):
-#    show_number(-42)
 
+#while True:
+#    show_number(-243)
