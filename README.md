@@ -6,8 +6,8 @@ Then, you command Arduino using your PC as a client,
 for instance using a python program and pyfirmata client library.
 
 ## 4-digit leds experiment
-Here I use a 3461BS-1 component:
-![3461BS](img/3461bs.jpg)
+Here I use a 3461BS-1 component (common anode):
+![3461BS](img/3461as-3461bs.jpg)
 
 You need digital outputs for all Arduino pins from 2 to 14: 4 pins 
 for the 4 digits, 7 pins for each digit's leds (A,..,G), and 1 pin 
